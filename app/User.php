@@ -36,4 +36,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function pub_id(){
+        return $this->belongsTo(Books::class,'publishers_id','id');
+    }
+
 }
