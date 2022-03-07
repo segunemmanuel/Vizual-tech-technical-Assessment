@@ -23,6 +23,7 @@ class BooksController extends Controller
         return response()->json($data);
 
 
+
     }
 
     /**
@@ -47,7 +48,7 @@ class BooksController extends Controller
         {
             //inserting data into the database
             $validateData=$request->validate([
-                 'name'=>'required |unique:books|max:25',
+                 'name'=>'required |unique:books|max:250',
                 'authors'=>'required',
             ]);
 
@@ -57,7 +58,7 @@ class BooksController extends Controller
     $data['authors']=$request->authors;
     $data['created_at']=Carbon::now();
     $insert=DB::table('books')->insert($data);
-    return response('Inserted data successfully');
+    return response('Book Added successfully');
         }
     }
 
@@ -70,6 +71,8 @@ class BooksController extends Controller
     public function show($id)
     {
         //
+        $show=DB::table('books')->where('id',$id)->first();
+        return response()->json($show);
     }
 
     /**
@@ -104,5 +107,10 @@ class BooksController extends Controller
     public function destroy($id)
     {
         //
+        // $show=DB::table('books')->where('id',$id)->delete();
+        $book=Books::findOrFail($id);
+        $book->delete();
+        // return response('Book Deleted Successfully');
+        return response(null,204);
     }
 }
