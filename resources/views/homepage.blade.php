@@ -15,22 +15,26 @@
 <div class="container mt-5">
     <div class="row">
 
-        @foreach ($data as $key )
 
+        @foreach($books as $key => $value)
                 <div class="col-md-6 col-lg-4 mb-5">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Book Title: {{$key->name}}</h5>
+                            <h5 class="card-title">Book Title: {{$value->name}}</h5>
                             <br>
-                            <p class="card-text">Author Names: {{$key->authors}}</p>
+
+                            @foreach ($value->books as $aa)
+
+                            <p class="card-text">Author Names:{{$aa->name}}</p>
+
+@endforeach
                         </div>
                         <div class="card-footer">
-                    Publishers:
+                    Publishers:{{$value->publisher}}
                         </div>
                     </div>
                 </div>
         @endforeach
-
 
             </div>
         </div>

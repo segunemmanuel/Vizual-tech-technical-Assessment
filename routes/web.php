@@ -1,6 +1,8 @@
 <?php
 
-use App\Books;
+use App\Author;
+use App\Book;
+use App\BookAuthor;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +23,10 @@ Route::get('/', function () {
 
 
 Route::get('/home', function () {
-    $data=Books::all();
-
-    return view('homepage',compact('data'));
+    $alldata['books']=Book::all();
+    return view('homepage',$alldata);
 });
+
+
+
+

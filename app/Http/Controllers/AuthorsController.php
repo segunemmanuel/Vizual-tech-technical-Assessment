@@ -1,12 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
-
-use App\Book;
-use App\Http\Resources\BooksResource;
+use App\Http\Resources\AuthorsResource;
+use Carbon\Carbon;
+use App\Author;
 use Illuminate\Http\Request;
-
-class BooksController extends Controller
+class AuthorsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +14,7 @@ class BooksController extends Controller
     public function index()
     {
         //
-        return BooksResource::collection(Book::all());
+  return AuthorsResource::collection(Author::all());
     }
 
     /**
@@ -26,7 +24,8 @@ class BooksController extends Controller
      */
     public function create()
     {
-        //
+
+
     }
 
     /**
@@ -38,27 +37,28 @@ class BooksController extends Controller
     public function store(Request $request)
     {
         {
-
-            $book=Book::create([
-                'name'=>$request->name,
-                'publisher'=>$request->publisher
-
+            $validateData=$request->validate([
+                 'name'=>'required |unique:authors|max:250',
             ]);
-return new BooksResource($book);
+
+    $data= new Author();
+    $data->name = $request->name;
+$data->created_at=Carbon::now();
+$data->save();
+
+    return response('Author Added successfully');
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Book
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Book $book)
+    public function show(Author $author)
     {
-        //
-        return new BooksResource($book);
-
+        return new AuthorsResource($author);
     }
 
     /**
@@ -69,36 +69,34 @@ return new BooksResource($book);
      */
     public function edit($id)
     {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  App\Book $book
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Book $book)
+    public function update(Request $request, Author $author)
     {
-        //
-        $book->update([
-            'name'=>$request->name,
-            'publisher'=>$request->publisher,
-        ]);
-        return new BooksResource($book);
+$author->update([
+    'name' => $request->input('name'),
+]
+);
+return new Authorsresource($author);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  App\Book $book
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Book $book)
+    public function destroy(Author $author)
     {
-        //
-        $book->delete($book);
-        return response(null, 200);
+
+        $author->delete();
+        return response(null,204);
     }
 }

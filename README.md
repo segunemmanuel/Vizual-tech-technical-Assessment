@@ -1,6 +1,6 @@
 API Routes
 ## Basic REST /Books Resource
-## GET /api/books Get all the books
+# GET /api/books Get all the books
 ## POST /api/books Create a new book
 ## GET /api/books/{id} Get a book’s details
 ## PUT /api/books/{id} Update a  book
